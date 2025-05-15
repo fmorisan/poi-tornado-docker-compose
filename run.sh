@@ -2,13 +2,13 @@
 
 DOCKER=""
 
-if [[ -f $(which docker) ]] then
+if [[ -f $(which docker) ]]; then
     DOCKER=docker
-else if [[ -f $(which podman) ]] then
+elif [[ -f $(which podman) ]]; then
     DOCKER=podman
 fi
 
-if [[ -z $DOCKER ]] then
+if [[ -z $DOCKER ]]; then
     echo 'Docker or Podman not found.'
     exit 1
 fi
