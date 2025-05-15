@@ -5,39 +5,40 @@ networks:
   default:
 
 services:
-  anvil:
-    build:
-      dockerfile: Dockerfile.anvil
-    # Setting the mnemonic to one generated for this purpose
-    command: "/root/.foundry/bin/anvil --fork-url https://mainnet.gateway.tenderly.co --mnemonic 'pipe expose flip fiscal cost random moon machine earth wing resemble rubber' --host 0.0.0.0"
-    healthcheck:
-      test: ["CMD", "cast", "block-number", "--rpc-url", "http://anvil:8545"]
-      interval: 5s
-      timeout: 5s
-      start_period: 10s
-      retries: 5
-    ports:
-      - 8545:8545
+  # anvil:
+  #   build:
+  #     dockerfile: Dockerfile.anvil
+  #   # Setting the mnemonic to one generated for this purpose
+  #   command: "/root/.foundry/bin/anvil --fork-url https://eth-mainnet.g.alchemy.com/v2/7R-EfT8ynT9_XI0nEkZYABXQy2jrAGgP --mnemonic 'pipe expose flip fiscal cost random moon machine earth wing resemble rubber' --host 0.0.0.0"
+  #   healthcheck:
+  #     test: ["CMD", "cast", "block-number", "--rpc-url", "http://anvil:8545"]
+  #     interval: 5s
+  #     timeout: 5s
+  #     start_period: 10s
+  #     retries: 5
+  #   ports:
+  #     - 8545:8545
+  #
+  # test:
+  #   build:
+  #     dockerfile: Dockerfile.anvil
+  #   depends_on:
+  #     anvil:
+  #       condition: service_healthy
+  #   command: "bash -c 'sleep 5 && /root/.foundry/bin/cast block-number --rpc-url http://anvil:8545'"
 
-  test:
-    build:
-      dockerfile: Dockerfile.anvil
-    depends_on:
-      anvil:
-        condition: service_healthy
-    command: "bash -c 'sleep 5 && /root/.foundry/bin/cast block-number --rpc-url http://anvil:8545'"
-
-  contracts:
-    build:
-      dockerfile: Dockerfile.contracts
-    depends_on:
-      test:
-        condition: service_completed_successfully
-    environment:
-      RPC_URL: "http://anvil:8545"
-      # First private key for the mnemonic set up for Anvil
-      PRIVATE_KEY: "0x2451d18e1119c4881b9e263693707bd0d99fc64af944ad5b053b35fb1e4e8bcb"
-      ETHERSCAN_API_KEY: "testtest"
+  # contracts:
+  #   build:
+  #     dockerfile: Dockerfile.contracts
+  #   depends_on:
+  #     test:
+  #       condition: service_completed_successfully
+  #   environment:
+  #     RPC_URL: "https://virtual.mainnet.rpc.tenderly.co/0c7998f0-7bc9-443c-8e93-ef0cae0442ae"
+  #     # First private key for the mnemonic set up for Anvil
+  #     PRIVATE_KEY: "0x2451d18e1119c4881b9e263693707bd0d99fc64af944ad5b053b35fb1e4e8bcb"
+  #     ETHERSCAN_API_KEY: "testtest"
+  #     PROOF_REGISTRY_ADDRESS: "0x99aa73da6309b8ec484ef2c95e96c131c1bbf7a0"
     
   valkey:
     image: valkey/valkey
@@ -51,9 +52,9 @@ services:
       - anvil
     environment:
       REWARD_ACCOUNT: "0x3333333333333333333333333333333333333333"
-      HTTP_RPC_URL: "http://anvil:8545"
-      ORACLE_RPC_URL: "http://anvil:8545"
-      WS_RPC_URL: "ws://anvil:8545"
+      HTTP_RPC_URL: "https://virtual.mainnet.rpc.tenderly.co/0c7998f0-7bc9-443c-8e93-ef0cae0442ae"
+      ORACLE_RPC_URL: "https://virtual.mainnet.rpc.tenderly.co/0c7998f0-7bc9-443c-8e93-ef0cae0442ae"
+      WS_RPC_URL: "wss://virtual.mainnet.rpc.tenderly.co/e22e59da-f1f9-4646-9bca-d82f5117e5fc"
       # First private key for the mnemonic set up for Anvil
       PRIVATE_KEY: "0x2451d18e1119c4881b9e263693707bd0d99fc64af944ad5b053b35fb1e4e8bcb"
       AGGREGATOR: "0x8cb1436F64a3c33aD17bb42F94e255c4c0E871b2"
@@ -62,7 +63,7 @@ services:
       MAX_GAS_PRICE: "10"
       BASE_FEE_RESERVE_PERCENTAGE: "50"
       # Calculated deployment address for the first transaction of the deployer address
-      PROOF_REGISTRY_ADDRESS: "0x510E4E569e847dFA537Fd24406e6dc52331C2aCa"
+      PROOF_REGISTRY_ADDRESS: "0x99aa73da6309b8ec484ef2c95e96c131c1bbf7a0"
       REDIS_URL: "valkey:6379"
 
   relayer-api:
@@ -92,6 +93,6 @@ services:
       dockerfile: Dockerfile.ui.static
     environment:
       # Calculated deployment address for the first transaction of the deployer address
-      PROOF_REGISTRY_ADDRESS: "0x510E4E569e847dFA537Fd24406e6dc52331C2aCa"
+      PROOF_REGISTRY_ADDRESS: "0x99aa73da6309b8ec484ef2c95e96c131c1bbf7a0"
     ports:
       - 3000:80

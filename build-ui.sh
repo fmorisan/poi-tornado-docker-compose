@@ -12,7 +12,7 @@ cd poi-tornado
 
 if [[ ! -z $(uname -a | grep -i darwin) ]]; then
     echo detected macos, running with arch -x86_64
-    arch -x86_64 zsh -c "yarn && PROOF_REGISTRY_ADDRESS=0x510E4E569e847dFA537Fd24406e6dc52331C2aCa yarn generate"
+    arch -x86_64 zsh -c "yarn && PROOF_REGISTRY_ADDRESS=0x99aa73da6309b8ec484ef2c95e96c131c1bbf7a0 yarn generate"
 else
     yarn
     yarn generate
