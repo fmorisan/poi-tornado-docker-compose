@@ -1,0 +1,9 @@
+[submodule "poi-tornado"]
+	path = poi-tornado
+	url = git@github.com:fatlabsxyz/poi-tornado.git
+[submodule "poi-relayer"]
+	path = poi-relayer
+	url = git@github.com:fatlabsxyz/poi-relayer.git
+[submodule "proof-of-innocence"]
+	path = proof-of-innocence
+	url = git@github.com:fatlabsxyz/proof-of-innocence.git
