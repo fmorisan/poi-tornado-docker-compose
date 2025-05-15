@@ -15,4 +15,5 @@ The included run.sh script should bring everything online.
 ```
 
 ## Setup
-The UI is built outside docker, and thus requires `zsh` and `nvm` installed. There is an alternative `Dockerfile.ui` which tries building the UI within Docker, but it hangs on my machine.
+The UI is built outside docker, and thus requires `zsh` and `nvm` installed. There is an alternative `Dockerfile.ui` which tries building the UI within Docker, but it hangs on my machine.  
+When running the UI, set the RPC to `http://localhost:8545` both on your wallet and the UI. You may also point the UI's custom relayer to `http://localhost:8000`
