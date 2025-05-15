@@ -1,0 +1,23 @@
+FROM node:latest as node-deps
+WORKDIR /code
+
+COPY proof-of-innocence/package.json .
+RUN yarn
+
+FROM ubuntu:25.04
+
+WORKDIR /code
+COPY proof-of-innocence/. .
+
+RUN apt-get update
+RUN apt-get install -y curl git gawk
+
+RUN curl -L https://foundry.paradigm.xyz | SHELL=/bin/bash bash
+RUN bash -c /root/.foundry/bin/foundryup
+
+COPY --from=node-deps /code/node_modules ./node_modules
+
+COPY start-contracts.sh .
+COPY Deploy.sol script/Deploy.sol
+
+ENTRYPOINT bash start-contracts.sh

@@ -1,0 +1,22 @@
+FROM --platform=x86_64 node:18
+
+WORKDIR /app
+
+COPY poi-tornado/dist .
+RUN yarn
+
+COPY --exclude=**/.git poi-tornado/. .
+
+# Nuxt expects to generate from a git directory. This is a workaround to it.
+RUN git init
+RUN git add .
+RUN git config user.name "Docker"
+RUN git config user.email "docker@example.com"
+RUN git commit -m "docker"
+
+# Fix node:fs not found
+RUN yarn add --dev @nodelib/fs.scandir @nodelib/fs.stat @nodelib/fs.walk
+
+EXPOSE 3000
+
+CMD yarn dev

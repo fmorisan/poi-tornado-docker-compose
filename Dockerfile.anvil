@@ -1,0 +1,14 @@
+FROM ubuntu:25.04
+
+RUN apt-get update
+RUN apt-get install -y curl git gawk
+
+RUN curl -L https://foundry.paradigm.xyz | SHELL=/bin/bash bash
+RUN bash -c /root/.foundry/bin/foundryup
+
+ENV FORK_URL https://mainnet.gateway.tenderly.co
+
+EXPOSE 8545
+
+HEALTHCHECK --interval=5s --timeout=1s CMD cast block-number --rpc-url http://localhost:8545
+CMD anvil --fork-url $FORK_URL
